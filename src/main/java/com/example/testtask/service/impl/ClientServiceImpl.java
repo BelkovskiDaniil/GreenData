@@ -128,7 +128,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findById(id)
                 .map(client -> {
                     clientRepository.delete(client);
-                    return ResponseEntity.ok("Client deleted successfully!");
+                    return ResponseEntity.ok("Client deleted successfully");
                 }).orElse(ResponseEntity.notFound().build());
     }
 }

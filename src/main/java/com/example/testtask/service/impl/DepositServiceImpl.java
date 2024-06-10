@@ -138,7 +138,7 @@ public class DepositServiceImpl implements DepositService {
                     deposit.setBank(null);
                     depositRepository.save(deposit);
                     depositRepository.delete(deposit);
-                    return ResponseEntity.ok("Deposit deleted successfully!");
+                    return ResponseEntity.ok("Deposit deleted successfully");
                 }).orElse(ResponseEntity.notFound().build());
     }
 

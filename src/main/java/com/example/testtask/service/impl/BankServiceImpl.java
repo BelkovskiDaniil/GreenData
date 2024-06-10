@@ -116,7 +116,7 @@ public class BankServiceImpl implements BankService {
         return bankRepository.findById(id)
                 .map(bank -> {
                     bankRepository.delete(bank);
-                    return ResponseEntity.ok("Bank deleted successfully!");
+                    return ResponseEntity.ok("Bank deleted successfully");
                 }).orElse(ResponseEntity.notFound().build());
     }
 }
