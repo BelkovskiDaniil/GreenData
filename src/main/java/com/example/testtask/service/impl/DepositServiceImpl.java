@@ -4,6 +4,8 @@ import com.example.testtask.entity.DepositEntity;
 import com.example.testtask.model.DepositModel;
 import com.example.testtask.repository.BankRepository;
 import com.example.testtask.repository.DepositRepository;
+import com.example.testtask.service.BankService;
+import com.example.testtask.service.ClientService;
 import com.example.testtask.service.DepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -21,14 +23,14 @@ import java.util.stream.Stream;
 public class DepositServiceImpl implements DepositService {
 
     private final DepositRepository depositRepository;
-    private final ClientRepository clientRepository;
-    private final BankRepository bankRepository;
+    private final ClientService clientService;
+    private final BankService bankService;
 
     @Autowired
-    DepositServiceImpl(DepositRepository depositRepository, ClientRepository clientRepository, BankRepository bankRepository) {
+    DepositServiceImpl(DepositRepository depositRepository, ClientService clientService, BankService bankService) {
         this.depositRepository = depositRepository;
-        this.clientRepository = clientRepository;
-        this.bankRepository = bankRepository;
+        this.clientService = clientService;
+        this.bankService = bankService;
     }
 
     public List<DepositEntity> getDepositsFromDB() {
@@ -98,8 +100,8 @@ public class DepositServiceImpl implements DepositService {
             depositEntityNew.setPercent(depositEntity.getPercent());
             depositEntityNew.setDateOpen(depositEntity.getDateOpen());
             depositEntityNew.setMonthPeriod(depositEntity.getMonthPeriod());
-            depositEntityNew.setClient(clientRepository.findById(clientId).get());
-            depositEntityNew.setBank(bankRepository.findById(bankId).get());
+            depositEntityNew.setClient(clientService.findById(clientId).orElseThrow(() -> new RuntimeException("Client not found")));
+            depositEntityNew.setBank(bankService.findById(bankId).orElseThrow(() -> new RuntimeException("Bank not found")));
             saveDeposit(depositEntityNew);
             return ResponseEntity.ok("Deposit created successfully");
         } catch (Exception e) {
@@ -117,8 +119,8 @@ public class DepositServiceImpl implements DepositService {
                         existingDeposit.setPercent(depositEntity.getPercent());
                         existingDeposit.setDateOpen(depositEntity.getDateOpen());
                         existingDeposit.setMonthPeriod(depositEntity.getMonthPeriod());
-                        existingDeposit.setClient(clientRepository.findById(clientId).get());
-                        existingDeposit.setBank(bankRepository.findById(bankId).get());
+                        existingDeposit.setClient(clientService.findById(clientId).orElseThrow(() -> new RuntimeException("Client not found")));
+                        existingDeposit.setBank(bankService.findById(bankId).orElseThrow(() -> new RuntimeException("Bank not found")));
                         saveDeposit(existingDeposit);
                         return ResponseEntity.ok("Deposit updated successfully");
                     })

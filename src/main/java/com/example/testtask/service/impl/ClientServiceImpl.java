@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -72,6 +73,11 @@ public class ClientServiceImpl implements ClientService {
                     String.format("Something went wrong \n %s", e.getMessage())
             );
         }
+    }
+
+    @Override
+    public Optional<ClientEntity> findById(Long id) {
+        return clientRepository.findById(id);
     }
 
     private Comparator<ClientModel> getComparator(String sort) {

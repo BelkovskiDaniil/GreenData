@@ -1,6 +1,7 @@
 package com.example.testtask.service.impl;
 
 import com.example.testtask.entity.BankEntity;
+import com.example.testtask.entity.ClientEntity;
 import com.example.testtask.model.BankModel;
 import com.example.testtask.repository.BankRepository;
 import com.example.testtask.service.BankService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -79,6 +81,11 @@ public class BankServiceImpl implements BankService {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public Optional<BankEntity> findById(Long id) {
+        return bankRepository.findById(id);
     }
 
     @Override
